@@ -1,6 +1,10 @@
 /* eslint-disable import/no-cycle */
 import { AxiosError } from 'axios';
-import { put, delay } from 'redux-saga/effects';
+import {
+  put,
+  // delay,
+} from 'redux-saga/effects';
+// import { getAllCourses } from '../../api/courses';
 import { getAllProducts } from '../../api/products';
 import { Product } from '../../type/Product';
 import {
@@ -15,8 +19,9 @@ export function* getProductsSaga() {
   yield put(setStatus('loading'));
 
   try {
-    yield delay(3000);
+    // yield delay(3000);
     const response: Product[] = yield getAllProducts();
+    // const response: any[] = yield getAllCourses();
 
     // eslint-disable-next-line no-console
     console.log(response);

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseURL = 'https://fakestoreapi.com/products';
+// const baseURL = 'https://fakestoreapi.com/products';
+const baseURL = 'http://api.wisey.app/api/v1';
 
 const instance = axios.create({
   baseURL,
@@ -10,11 +11,14 @@ type FetchData = {
 };
 
 export const client = {
-  async get<T>(url: string) {
-    const response = await instance.get<T>(url);
+  async get<T>(url: string, config?: any) {
+    // eslint-disable-next-line no-console
+    console.log('get', baseURL + url, config || 'no config');
+
+    const response = await instance.get<T>(url, config);
 
     // eslint-disable-next-line no-console
-    console.log('get', baseURL + url);
+    console.log(response);
 
     return response.data;
   },

@@ -21,6 +21,7 @@ import rootSaga from './sagas/root';
 import controlsSlice from './features/Controls/controlsSlice';
 import productsSlice from './features/Products/productsSlice';
 import basketSlice from './features/Basket/basketSlice';
+import coursesSlice from './features/Courses/coursesSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   control: controlsSlice,
   products: productsSlice,
   basket: basketSlice,
+  courses: coursesSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

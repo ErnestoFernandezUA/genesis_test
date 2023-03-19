@@ -1,4 +1,4 @@
-[DEMO](https://ernestofernandezua.github.io/REACT_KITGLOBAL_TESTING_TASK/)
+[DEMO](https://ernestofernandezua.github.io/genesis_test/)
 
 includes:
   - toolkit

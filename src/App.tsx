@@ -53,7 +53,7 @@ function App() {
       const response = await res.json();
 
       // eslint-disable-next-line no-console
-      console.log(response);
+      console.log('response', response);
 
       setCourses(response);
     };
@@ -64,12 +64,12 @@ function App() {
   // eslint-disable-next-line no-console
   console.log(courses);
   // eslint-disable-next-line no-console
-  console.log(token);
+  console.log('token', token);
 
   return (
     <Wrapper>
       <Header>
-        <h1>Shop with React Saga</h1>
+        <h1>Test</h1>
         {token}
         <Controls />
       </Header>

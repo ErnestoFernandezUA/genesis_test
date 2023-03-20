@@ -32,7 +32,7 @@ const persistConfig = {
     'basket',
     // 'products', // don't save products state in local storage
   ],
-  // blacklist: ['interval'],
+  // blacklist: ['any_part_of_store'],
 };
 
 const rootReducer = combineReducers({

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 // const baseURL = 'https://fakestoreapi.com/products';
 const baseURL = 'http://api.wisey.app/api/v1';
@@ -11,14 +11,20 @@ type FetchData = {
 };
 
 export const client = {
-  async get<T>(url: string, config?: any) {
+  async get<T>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ) {
     // eslint-disable-next-line no-console
     console.log('get', baseURL + url, config || 'no config');
 
-    const response = await instance.get<T>(url, config);
+    const response = await instance.get<T>(url, {
+      ...config,
+      // 'Access-Control-Allow-Headers': 'Content-Type',
+    });
 
     // eslint-disable-next-line no-console
-    console.log(response);
+    console.log('client.get response', response);
 
     return response.data;
   },

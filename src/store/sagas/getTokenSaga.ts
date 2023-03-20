@@ -2,9 +2,10 @@
 /* eslint-disable import/no-cycle */
 import { AxiosError } from 'axios';
 import {
-  put,
+  put, select,
   // delay,
 } from 'redux-saga/effects';
+import { RootState } from '..';
 import { getToken } from '../../api/token';
 import {
   setError,
@@ -15,6 +16,8 @@ import {
 export function* getTokenSaga() {
   // eslint-disable-next-line no-console
   console.log('getTokenSaga');
+  const state:RootState = yield select();
+
   yield put(setStatus('loading'));
 
   try {
@@ -23,7 +26,10 @@ export function* getTokenSaga() {
     const response: string = yield getToken();
 
     // eslint-disable-next-line no-console
-    yield console.log('response', response);
+    console.log('getTokenSaga response', response);
+
+    // eslint-disable-next-line no-console
+    console.log('token', state.courses.token);
 
     yield put(setToken(response));
   } catch (error: unknown) {

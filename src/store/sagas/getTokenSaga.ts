@@ -2,11 +2,9 @@
 /* eslint-disable import/no-cycle */
 import { AxiosError } from 'axios';
 import {
-  put, select,
+  put,
   // delay,
 } from 'redux-saga/effects';
-import { RootState } from '..';
-import { getToken } from '../../api/token';
 import {
   setError,
   setStatus,
@@ -16,22 +14,27 @@ import {
 export function* getTokenSaga() {
   // eslint-disable-next-line no-console
   console.log('getTokenSaga');
-  const state:RootState = yield select();
 
   yield put(setStatus('loading'));
 
   try {
     // yield delay(3000);
     // const response: Product[] = yield getAllProducts();
-    const response: string = yield getToken();
+    // const response: string = yield getToken();
+
+    const res: { token: string } = yield fetch(
+      'https://api.wisey.app/api/v1/auth/anonymous?platform=subscriptions', {
+        method: 'GET',
+        headers: {
+          'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization',
+        },
+      },
+    ).then(response => response.json());
 
     // eslint-disable-next-line no-console
-    console.log('getTokenSaga response', response);
+    console.log('getTokenSaga response', res.token);
 
-    // eslint-disable-next-line no-console
-    console.log('token', state.courses.token);
-
-    yield put(setToken(response));
+    yield put(setToken(res.token));
   } catch (error: unknown) {
     yield put(setError((error as AxiosError).message));
   } finally {

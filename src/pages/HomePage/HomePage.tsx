@@ -16,6 +16,7 @@ import { Loader } from '../../components/Loader';
 import { TitleMessage } from '../../components/TitleMassage';
 import { selectTotalCount } from '../../store/features/Basket/basketSlice';
 import { loadProducts } from '../../store/sagas/sagaActions';
+import { selectCourses } from '../../store/features/Courses/coursesSlice';
 
 const Wrapper = styled.div`
   display: grid;
@@ -32,6 +33,8 @@ export const HomePage: FunctionComponent = () => {
   const isLoading = useAppSelector(selectProductsStatusLoading) === 'loading';
   const error = useAppSelector(selectProductsError);
   const isEmptyBasket = useAppSelector(selectTotalCount) === 0;
+
+  const courses = useAppSelector(selectCourses);
 
   useEffect(() => {
     // use button 'Load Products' for start load saga
@@ -53,6 +56,10 @@ export const HomePage: FunctionComponent = () => {
 
   return (
     <Wrapper>
+      {courses.map(course => (
+        <div key={course.id}>{course.title}</div>
+      ))}
+
       {products.length > 0 && products.map((product: Product) => (
         <Card
           key={product.id}

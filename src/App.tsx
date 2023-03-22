@@ -8,8 +8,11 @@ import { HomePage } from './pages/HomePage/HomePage';
 import { Controls } from './components/Controls';
 import { BasketPage } from './pages/BasketPage';
 import { ProductPage } from './pages/ProductPage';
-import { selectCourses, selectToken, setCourses } from './store/features/Courses/coursesSlice';
-import { useAppDispatch, useAppSelector } from './store/hooks';
+import { selectToken, setCourses } from './store/features/Courses/coursesSlice';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from './store/hooks';
 import { fetchToken } from './store/sagas/sagaActions';
 
 const Wrapper = styled.div`
@@ -33,7 +36,6 @@ const Main = styled.main`
 `;
 
 function App() {
-  const courses = useAppSelector(selectCourses);
   const token = useAppSelector(selectToken);
   const dispatch = useAppDispatch();
 
@@ -46,23 +48,21 @@ function App() {
           method: 'GET',
           headers: {
             Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMGUwMDA3MS04YWZmLTQ3MDAtYmJmOS1iNmQ1ZjcyYTJiNzYiLCJwbGF0Zm9ybSI6InN1YnNjcmlwdGlvbnMiLCJpYXQiOjE2Nzg3ODg5MDQsImV4cCI6MTY3OTY4ODkwNH0.0hBEONuBcKkXZCVg0cw8JDJxHkyZzR2Dw5m6ouBwj3w',
+            // 'Access-Control-Allow-Headers': 'Content-Type',
+            // 'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization',
           },
         },
       );
 
       const response = await res.json();
 
-      // eslint-disable-next-line no-console
-      console.log('response', response);
-
-      setCourses(response);
+      dispatch(setCourses(response.courses));
     };
 
     load();
   }, []);
 
-  // eslint-disable-next-line no-console
-  console.log(courses);
   // eslint-disable-next-line no-console
   console.log('token', token);
 

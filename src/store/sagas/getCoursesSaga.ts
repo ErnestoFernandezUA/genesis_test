@@ -6,6 +6,7 @@ import {
   // delay,
 } from 'redux-saga/effects';
 import { getAllCourses } from '../../api/courses';
+import { Course } from '../../type/Courses';
 import {
   setCourses,
   setError,
@@ -26,7 +27,7 @@ export function* getCoursesSaga() {
   try {
     // yield delay(3000);
     // const response: Product[] = yield getAllProducts();
-    const response: any[] = yield getAllCourses(
+    const response: Course[] = yield getAllCourses(
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMGUwMDA3MS04YWZmLTQ3MDAtYmJmOS1iNmQ1ZjcyYTJiNzYiLCJwbGF0Zm9ybSI6InN1YnNjcmlwdGlvbnMiLCJpYXQiOjE2Nzg3ODg5MDQsImV4cCI6MTY3OTY4ODkwNH0.0hBEONuBcKkXZCVg0cw8JDJxHkyZzR2Dw5m6ouBwj3w',
     );
 

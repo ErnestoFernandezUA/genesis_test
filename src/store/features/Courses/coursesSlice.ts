@@ -2,9 +2,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // eslint-disable-next-line import/no-cycle
 import { RootState } from '../..';
+import { Course } from '../../../type/Courses';
 
 export interface CoursesState {
-  storage: any[];
+  storage: Course[];
   token: string | null;
   statusLoading: 'idle' | 'loading' | 'failed';
   error: string | null;
@@ -25,8 +26,11 @@ const coursesSlice = createSlice({
     // we can create empty actions for saga watchers
     // but I use external sagasActions file
     // },
-    setCourses: (state: CoursesState, action: PayloadAction<any[]>) => {
-      state.storage = action.payload;
+    setCourses: (state: CoursesState, action: PayloadAction<Course[]>) => {
+      // eslint-disable-next-line no-console
+      console.log('setCourses');
+
+      state.storage = [...action.payload];
     },
     setStatus: (
       state: CoursesState,

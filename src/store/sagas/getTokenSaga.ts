@@ -3,7 +3,6 @@
 import { AxiosError } from 'axios';
 import {
   put,
-  // delay,
 } from 'redux-saga/effects';
 import {
   setError,

@@ -8,12 +8,12 @@ import { HomePage } from './pages/HomePage/HomePage';
 import { Controls } from './components/Controls';
 import { BasketPage } from './pages/BasketPage';
 import { ProductPage } from './pages/ProductPage';
-import { selectToken, setCourses } from './store/features/Courses/coursesSlice';
+import { selectToken } from './store/features/Courses/coursesSlice';
 import {
   useAppDispatch,
   useAppSelector,
 } from './store/hooks';
-import { fetchToken } from './store/sagas/sagaActions';
+import { fetchCourses, fetchToken } from './store/sagas/sagaActions';
 
 const Wrapper = styled.div`
   margin: 0;
@@ -42,29 +42,33 @@ function App() {
   useEffect(() => {
     dispatch(fetchToken());
 
-    const load = async () => {
-      const res = await fetch(
-        'https://api.wisey.app/api/v1/core/preview-courses/', {
-          method: 'GET',
-          headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMGUwMDA3MS04YWZmLTQ3MDAtYmJmOS1iNmQ1ZjcyYTJiNzYiLCJwbGF0Zm9ybSI6InN1YnNjcmlwdGlvbnMiLCJpYXQiOjE2Nzg3ODg5MDQsImV4cCI6MTY3OTY4ODkwNH0.0hBEONuBcKkXZCVg0cw8JDJxHkyZzR2Dw5m6ouBwj3w',
-            // 'Access-Control-Allow-Headers': 'Content-Type',
-            // 'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization',
-          },
-        },
-      );
+    // const load = async () => {
+    //   const res = await fetch(
+    //     'https://api.wisey.app/api/v1/core/preview-courses/', {
+    //       method: 'GET',
+    //       headers: {
+    //         Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMGUwMDA3MS04YWZmLTQ3MDAtYmJmOS1iNmQ1ZjcyYTJiNzYiLCJwbGF0Zm9ybSI6InN1YnNjcmlwdGlvbnMiLCJpYXQiOjE2Nzg3ODg5MDQsImV4cCI6MTY3OTY4ODkwNH0.0hBEONuBcKkXZCVg0cw8JDJxHkyZzR2Dw5m6ouBwj3w',
+    //         // 'Access-Control-Allow-Headers': 'Content-Type',
+    //         // 'Access-Control-Allow-Origin': '*',
+    //         'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization',
+    //       },
+    //     },
+    //   );
 
-      const response = await res.json();
+    //   const response = await res.json();
 
-      dispatch(setCourses(response.courses));
-    };
+    //   dispatch(setCourses(response.courses));
+    // };
 
-    load();
+    // load();
   }, []);
 
+  useEffect(() => {
+    dispatch(fetchCourses());
+  }, [token]);
+
   // eslint-disable-next-line no-console
-  console.log('token', token);
+  console.log('App token', token);
 
   return (
     <Wrapper>

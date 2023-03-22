@@ -17,7 +17,7 @@ export function* watchSaga() {
   yield takeLeading(sagaActions.FETCH_TOKEN, getTokenSaga);
   // send only first response
   // but we can add pagination for each response
-  yield takeLeading(sagaActions.FETCH_PRODUCTS_DATA, getCoursesSaga);
+  yield takeEvery(sagaActions.FETCH_COURSES, getCoursesSaga);
 
   // run sendOrder every time
   yield takeEvery(sagaActions.FETCH_ORDER_TO_SERVER, sendOrderSaga);

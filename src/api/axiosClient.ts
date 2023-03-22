@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 // const baseURL = 'https://fakestoreapi.com/products';
 const baseURL = 'http://api.wisey.app/api/v1';
@@ -17,7 +17,7 @@ type FetchData = {
 export const client = {
   async get<T>(
     url: string,
-    config?: any,
+    config?: AxiosRequestConfig,
   ) {
     // eslint-disable-next-line no-console
     console.log('get', baseURL + url, config || 'no config');

@@ -29,14 +29,14 @@ const CardContainer = styled.div<{ format?: string }>`
   /* border: 1px solid red; */
 
   &:hover {
+    ${({ format }) => (format === 'card') && css`
     cursor: pointer;
-    ${({ format }) => (format === 'page') && css`
-    cursor: auto;
   `}
   }
 
   ${({ format }) => (format === 'page') && css`
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     border-radius: none;
@@ -117,6 +117,7 @@ const CardPlayer = styled.div<{ format?: string }>`
   height: 160px;
 
   ${({ format }) => (format === 'page') && css`
+    height: auto;
   `}
 `;
 
@@ -202,9 +203,12 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   useEffect(() => {
     function handlePlay() {
       // Do something when the video starts/resumes playing
+      const player = playerRef.current;
 
-      // eslint-disable-next-line no-console
-      console.log('handlePlay');
+      if (player) {
+        // eslint-disable-next-line no-console
+        console.log('handlePlay', player.currentTime);
+      }
     }
 
     const player = playerRef.current;
@@ -216,6 +220,30 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
     return () => {
       if (player) {
         player.removeEventListener('play', handlePlay);
+      }
+    };
+  }, [playerRef]);
+
+  useEffect(() => {
+    function handlePause() {
+      const player = playerRef.current;
+      // Do some stuff when the video pause
+
+      if (player) {
+        // eslint-disable-next-line no-console
+        console.log('handlePause', player.currentTime);
+      }
+    }
+
+    const player = playerRef.current;
+
+    if (player) {
+      player.addEventListener('pause', handlePause);
+    }
+
+    return () => {
+      if (player) {
+        playerRef.current.removeEventListener('pause', handlePause);
       }
     };
   }, [playerRef]);
@@ -235,7 +263,8 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   function playVideo() {
     const player = playerRef.current;
 
-    if (player && link) {
+    if (format === 'card'
+      && player && link) {
       // eslint-disable-next-line no-console
       console.log('playVideo');
 
@@ -248,7 +277,8 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   function pauseVideo() {
     const player = playerRef.current;
 
-    if (player && (
+    if (format === 'card'
+      && player && (
       player.currentTime > 0
       && !player.paused
       && !player.ended
@@ -262,9 +292,8 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   }
 
   const cardToggle = () => {
-    pauseVideo();
-
     if (format === 'card') {
+      pauseVideo();
       navigate(`course/${id}`, { replace: true });
     }
   };
@@ -282,10 +311,9 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
         format={format}
       />
       <CardContent format={format}>
-        {/* <CardCategory format={format}>{category}</CardCategory> */}
         <CardTitle format={format}>{title}</CardTitle>
 
-        <CardPlayer>
+        <CardPlayer format={format}>
           <ReactHlsPlayer
             playerRef={playerRef}
             src={link}
@@ -305,16 +333,11 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
         </CardPrice>
 
         <CardRating format={format}>
-          {/* <img src={StarIcon} alt="star icon" /> */}
-          {/* <CardRatingCount format={format}>{`${count} available`}</CardRatingCount> */}
           Rating:&nbsp;
           {rating}
         </CardRating>
 
       </CardContent>
-      {/* <CardButtonBuy onClick={e => buyHandler(e)} format={format}>
-        Add
-      </CardButtonBuy> */}
     </CardContainer>
   );
 };

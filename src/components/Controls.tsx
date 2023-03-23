@@ -3,7 +3,9 @@ import {
 } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { IoCart, IoCartOutline, IoChevronBack } from 'react-icons/io5';
+import {
+  IoChevronBack,
+} from 'react-icons/io5';
 import {
   clearBasket,
   selectBasket,
@@ -60,13 +62,13 @@ export const Controls: FunctionComponent = () => {
         </>
       )}
 
-      <Link
+      {/* <Link
         to="basket"
       >
         {basket.length
           ? <IoCart size="2rem" color="black" />
           : <IoCartOutline size="2rem" color="grey" />}
-      </Link>
+      </Link> */}
 
     </Wrapper>
   );

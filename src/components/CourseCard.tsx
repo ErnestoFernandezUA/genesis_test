@@ -232,18 +232,6 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   //   }));
   // };
 
-  const cardToggle = () => {
-    const player = playerRef.current;
-
-    if (player) {
-      playerRef.current.pause();
-    }
-
-    if (format === 'card') {
-      navigate(`course/${id}`, { replace: true });
-    }
-  };
-
   function playVideo() {
     const player = playerRef.current;
 
@@ -251,6 +239,7 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
       // eslint-disable-next-line no-console
       console.log('playVideo');
 
+      player.controls = !player.controls;
       player.volume = 0;
       player.play();
     }
@@ -265,15 +254,20 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
       && !player.ended
       && player.readyState > player.HAVE_CURRENT_DATA)) {
       // eslint-disable-next-line no-console
-      console.log('pauseVideo');
+      console.log('pauseVideo', title);
 
+      player.controls = !player.controls;
       player.pause();
     }
   }
 
-  // function toggleControls() {
-  //   playerRef.current.controls = !playerRef.current.controls;
-  // }
+  const cardToggle = () => {
+    pauseVideo();
+
+    if (format === 'card') {
+      navigate(`course/${id}`, { replace: true });
+    }
+  };
 
   return (
     <CardContainer

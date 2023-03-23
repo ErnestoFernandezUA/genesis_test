@@ -12,14 +12,12 @@ import {
 
 export function* getTokenSaga() {
   // eslint-disable-next-line no-console
-  console.log('getTokenSaga');
+  console.log('getTokenSaga start');
 
   yield put(setStatus('loading'));
 
   try {
     // yield delay(3000);
-    // const response: Product[] = yield getAllProducts();
-    // const response: string = yield getToken();
 
     const res: { token: string } = yield fetch(
       'https://api.wisey.app/api/v1/auth/anonymous?platform=subscriptions', {
@@ -34,6 +32,7 @@ export function* getTokenSaga() {
     console.log('getTokenSaga response', res.token);
 
     yield put(setToken(res.token));
+    yield res.token;
   } catch (error: unknown) {
     yield put(setError((error as AxiosError).message));
   } finally {

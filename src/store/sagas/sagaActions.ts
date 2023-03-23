@@ -3,6 +3,7 @@ export const sagaActions = {
   FETCH_ORDER_TO_SERVER: 'saga/FETCH_ORDER_TO_SERVER',
   FETCH_TOKEN: 'saga/FETCH_TOKEN',
   FETCH_COURSES: 'saga/FETCH_COURSES',
+  FETCH_COURSE: 'saga/FETCH_COURSE',
 };
 
 const sagaActionsCreator = {
@@ -10,6 +11,10 @@ const sagaActionsCreator = {
   sendOrder: () => ({ type: sagaActions.FETCH_ORDER_TO_SERVER }),
   fetchToken: () => ({ type: sagaActions.FETCH_TOKEN }),
   fetchCourses: () => ({ type: sagaActions.FETCH_COURSES }),
+  fetchCourse: (courseId: string) => ({
+    type: sagaActions.FETCH_COURSE,
+    action: { payload: courseId },
+  }),
 };
 
 export const {
@@ -17,4 +22,5 @@ export const {
   sendOrder,
   fetchToken,
   fetchCourses,
+  fetchCourse,
 } = sagaActionsCreator;

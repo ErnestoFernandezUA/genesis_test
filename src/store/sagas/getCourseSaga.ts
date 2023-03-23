@@ -5,6 +5,7 @@ import {
   delay,
   put, select,
 } from 'redux-saga/effects';
+import { getCourse } from '../../api/getCourse';
 import { Course } from '../../type/Courses';
 
 import {
@@ -15,7 +16,7 @@ import {
   setStatus,
 } from '../features/Courses/coursesSlice';
 
-export function* getCourseSaga() {
+export function* getCourseSaga(courseId: string) {
   // eslint-disable-next-line no-console
   console.log('getCoursesSaga start');
   const token: string = yield select(selectToken);
@@ -31,15 +32,7 @@ export function* getCourseSaga() {
   try {
     yield delay(3000);
 
-    const res: { courses: Course[] } = yield fetch(
-      'https://api.wisey.app/api/v1/core/preview-courses/', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization',
-        },
-      },
-    ).then(response => response.json());
+    const res: { courses: Course[] } = yield getCourse(token, courseId);
 
     // eslint-disable-next-line no-console
     yield console.log('response', res.courses);

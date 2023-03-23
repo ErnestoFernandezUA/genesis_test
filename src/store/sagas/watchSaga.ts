@@ -6,6 +6,7 @@ import {
 } from 'redux-saga/effects';
 import { Course } from '../../type/Courses';
 import { selectCourses, selectToken } from '../features/Courses/coursesSlice';
+// import { getCourseSaga } from './getCourseSaga';
 import { getCoursesSaga } from './getCoursesSaga';
 import { getTokenSaga } from './getTokenSaga';
 import { sagaActions } from './sagaActions';
@@ -26,4 +27,6 @@ export function* watchSaga() {
   if (!courses.length) {
     yield takeEvery(sagaActions.FETCH_COURSES, getCoursesSaga);
   }
+
+  // yield takeEvery(sagaActions.FETCH_COURSE, getCourseSaga);
 }

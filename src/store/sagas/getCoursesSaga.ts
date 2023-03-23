@@ -2,11 +2,11 @@
 /* eslint-disable import/no-cycle */
 import { AxiosError } from 'axios';
 import {
+  call,
   delay,
   put, select,
 } from 'redux-saga/effects';
 import { getCourses } from '../../api/getCourses';
-// import { Course } from '../../type/Courses';
 
 import {
   resetStateExceptToken,
@@ -32,7 +32,7 @@ export function* getCoursesSaga() {
   try {
     yield delay(3000);
 
-    const { courses } = yield getCourses(token);
+    const { courses } = yield call(getCourses, token);
 
     // eslint-disable-next-line no-console
     yield console.log('courses', courses);

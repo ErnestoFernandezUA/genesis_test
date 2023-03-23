@@ -2,6 +2,7 @@
 /* eslint-disable import/no-cycle */
 import { AxiosError } from 'axios';
 import {
+  call,
   // delay,
   put,
 } from 'redux-saga/effects';
@@ -22,8 +23,7 @@ export function* getTokenSaga() {
 
   try {
     // yield delay(3000);
-
-    const { token } = yield getToken();
+    const { token } = yield call(getToken);
 
     // eslint-disable-next-line no-console
     console.log('getTokenSaga response', token);

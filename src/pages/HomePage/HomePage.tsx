@@ -12,14 +12,11 @@ import {
   selectCoursesError,
   selectCoursesStatusLoading,
 } from '../../store/features/Courses/coursesSlice';
+import { Title } from '../../UI/Title';
+import { Grid } from '../../UI/Grid';
+import { CourseCard } from '../../components/CourseCard';
 
 const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, minmax(300px, 1fr));
-  gap: 20px;
-  justify-items: center;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const HomePage: FunctionComponent = () => {
@@ -34,13 +31,15 @@ export const HomePage: FunctionComponent = () => {
 
   return (
     <Wrapper>
-      <h2>Courses:</h2>
+      <Title>Courses:</Title>
 
       {isLoading && <Loader />}
 
-      {courses.map(course => (
-        <div key={course.id}>{course.title}</div>
-      ))}
+      <Grid>
+        {courses.map(course => (
+          <CourseCard key={course.id} course={course} />
+        ))}
+      </Grid>
     </Wrapper>
   );
 };

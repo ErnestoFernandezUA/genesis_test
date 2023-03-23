@@ -197,7 +197,7 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
 
   const cardToggle = () => {
     if (format === 'card') {
-      navigate(`product/${id}`);
+      navigate(`courses/${id}`);
     }
   };
 
@@ -206,7 +206,7 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
       onClick={cardToggle}
       format={format}
     >
-      <CardImage src={previewImageLink} alt={description} format={format} />
+      <CardImage src={`${previewImageLink}/cover.webp`} alt={description} format={format} />
       <CardContent format={format}>
         {/* <CardCategory format={format}>{category}</CardCategory> */}
         <CardTitle format={format}>{title}</CardTitle>

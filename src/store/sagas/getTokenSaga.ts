@@ -22,20 +22,19 @@ export function* getTokenSaga() {
   try {
     yield delay(3000);
 
-    const res: { token: string } = yield fetch(
+    const response: { token: string } = yield fetch(
       'https://api.wisey.app/api/v1/auth/anonymous?platform=subscriptions', {
         method: 'GET',
         headers: {
           'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization',
         },
       },
-    ).then(response => response.json());
+    ).then(r => r.json());
 
     // eslint-disable-next-line no-console
-    console.log('getTokenSaga response', res.token);
+    console.log('getTokenSaga response', response.token);
 
-    yield put(setToken(res.token));
-    yield res.token;
+    yield put(setToken(response.token));
   } catch (error: unknown) {
     yield put(setError((error as AxiosError).message));
   } finally {

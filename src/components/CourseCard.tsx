@@ -202,6 +202,9 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   useEffect(() => {
     function handlePlay() {
       // Do something when the video starts/resumes playing
+
+      // eslint-disable-next-line no-console
+      console.log('handlePlay');
     }
 
     const player = playerRef.current;
@@ -242,24 +245,29 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   };
 
   function playVideo() {
-    // eslint-disable-next-line no-console
-    console.log('play');
-
     const player = playerRef.current;
 
-    if (player) {
+    if (player && link) {
+      // eslint-disable-next-line no-console
+      console.log('playVideo');
+
       player.volume = 0;
       player.play();
     }
   }
 
   function pauseVideo() {
-    // eslint-disable-next-line no-console
-    console.log('pause');
     const player = playerRef.current;
 
-    if (player) {
-      playerRef.current.pause();
+    if (player && (
+      player.currentTime > 0
+      && !player.paused
+      && !player.ended
+      && player.readyState > player.HAVE_CURRENT_DATA)) {
+      // eslint-disable-next-line no-console
+      console.log('pauseVideo');
+
+      player.pause();
     }
   }
 

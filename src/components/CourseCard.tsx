@@ -25,7 +25,8 @@ const CardContainer = styled.div<{ format?: string }>`
   overflow: hidden;
   margin: 10px;
   box-sizing: border-box;
-  padding: 0 0 20px;
+  /* padding: 0 0 20px; */
+  /* border: 1px solid red; */
 
   &:hover {
     cursor: pointer;
@@ -66,7 +67,7 @@ const CardContent = styled.div<{ format?: string }>`
   flex-direction: column;
   align-items: center;
   justify-content: center; */
-  padding: 20px;
+  /* padding: 20px; */
 
   ${({ format }) => (format === 'page') && css`
     padding: 50px;
@@ -97,6 +98,7 @@ const CardTitle = styled.h2<{ format?: string }>`
   -webkit-box-orient: vertical;
   overflow-wrap: normal;
   height: 48px;
+  padding: 0 20px;
 
   ${({ format }) => (format === 'page') && css`
     font-size: 50px;
@@ -108,6 +110,13 @@ const CardTitle = styled.h2<{ format?: string }>`
     overflow: visible;
     text-overflow: none;
     height: auto;
+  `}
+`;
+
+const CardPlayer = styled.div<{ format?: string }>`
+  height: 160px;
+
+  ${({ format }) => (format === 'page') && css`
   `}
 `;
 
@@ -123,7 +132,7 @@ const CardDescription = styled.p<{ format?: string }>`
   -webkit-box-direction: normal;
   -webkit-box-orient: vertical;
   overflow-wrap: break-word;
-  padding-top: 5px;
+  padding: 5px 20px 0;
 
   ${({ format }) => (format === 'page') && css`
     font-size: 24px;
@@ -152,6 +161,7 @@ const CardRating = styled.div<{ format?: string }>`
   text-align: left;
   align-self: flex-start;
   font-size: 14px;
+  padding: 5px 20px 0;
 
   ${({ format }) => (format === 'page') && css`
   `}
@@ -192,9 +202,6 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   console.log(course.meta);
 
   const link = course.meta?.courseVideoPreview?.link || '';
-
-  // eslint-disable-next-line no-console
-  console.log(link);
 
   useEffect(() => {
     function handlePlay() {
@@ -245,47 +252,51 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   // }
 
   return (
-    <CardContainer
-      onClick={cardToggle}
-      format={format}
-    >
-      <CardImage
-        src={`${previewImageLink}/cover.webp`}
-        alt={description}
+    <>
+      <CardContainer
+        onClick={cardToggle}
         format={format}
-      />
-      <CardContent format={format}>
-        {/* <CardCategory format={format}>{category}</CardCategory> */}
-        <CardTitle format={format}>{title}</CardTitle>
-
-        <ReactHlsPlayer
-          playerRef={playerRef}
-          src={link}
-          autoPlay={false}
-          controls
-          width="100%"
-          height="150px"
-          hlsConfig={{
-            startPosition: -1,
-          }}
+      >
+        <CardImage
+          src={`${previewImageLink}/cover.webp`}
+          alt={description}
+          format={format}
         />
+        <CardContent format={format}>
+          {/* <CardCategory format={format}>{category}</CardCategory> */}
+          <CardTitle format={format}>{title}</CardTitle>
 
-        <CardDescription format={format}>{description}</CardDescription>
-        <CardPrice format={format}>
-          {/* {price} */}
-        </CardPrice>
+          <CardPlayer>
+            <ReactHlsPlayer
+              playerRef={playerRef}
+              src={link}
+              autoPlay={false}
+              controls
+              width="100%"
+              height="100%"
+              hlsConfig={{
+                startPosition: -1,
+              }}
+            />
+          </CardPlayer>
 
-        <CardRating format={format}>
-          {/* <img src={StarIcon} alt="star icon" /> */}
-          {/* <CardRatingCount format={format}>{`${count} available`}</CardRatingCount> */}
-          Rating:&nbsp;
-          {rating}
-        </CardRating>
+          <CardDescription format={format}>{description}</CardDescription>
+          <CardPrice format={format}>
+            {/* {price} */}
+          </CardPrice>
 
-      </CardContent>
-      {/* <CardButtonBuy onClick={e => buyHandler(e)} format={format}>
-        Add
-      </CardButtonBuy> */}
-    </CardContainer>
+          <CardRating format={format}>
+            {/* <img src={StarIcon} alt="star icon" /> */}
+            {/* <CardRatingCount format={format}>{`${count} available`}</CardRatingCount> */}
+            Rating:&nbsp;
+            {rating}
+          </CardRating>
+
+        </CardContent>
+        {/* <CardButtonBuy onClick={e => buyHandler(e)} format={format}>
+          Add
+        </CardButtonBuy> */}
+      </CardContainer>
+    </>
   );
 };

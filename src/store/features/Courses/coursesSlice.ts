@@ -47,6 +47,9 @@ const coursesSlice = createSlice({
 
       state.token = action.payload;
     },
+    resetStateExceptToken: (state: CoursesState) => {
+      return { ...state, ...initialState, token: state.token };
+    },
     resetState: (state: CoursesState) => {
       return { ...state, ...initialState };
     },
@@ -60,6 +63,7 @@ export const {
   resetError,
   setError,
   setToken,
+  resetStateExceptToken,
   resetState,
 } = coursesSlice.actions;
 

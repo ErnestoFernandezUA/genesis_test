@@ -17,7 +17,7 @@ import {
 import {
   selectProducts,
 } from '../store/features/Products/productsSlice';
-import { loadProducts } from '../store/sagas/sagaActions';
+import { fetchCourses } from '../store/sagas/sagaActions';
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -41,9 +41,9 @@ export const Controls: FunctionComponent = () => {
 
       {!products.length && (
         <Button
-          onClick={() => dispatch(loadProducts())}
+          onClick={() => dispatch(fetchCourses())}
         >
-          Load products
+          reload courses
         </Button>
       )}
 

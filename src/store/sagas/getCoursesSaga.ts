@@ -8,7 +8,7 @@ import {
 import { Course } from '../../type/Courses';
 
 import {
-  resetError,
+  resetStateExceptToken,
   selectToken,
   setCourses,
   setError,
@@ -25,7 +25,7 @@ export function* getCoursesSaga() {
     yield console.log('getCoursesSaga: token === null');
   }
 
-  yield put(resetError());
+  yield put(resetStateExceptToken());
   yield put(setStatus('loading'));
 
   try {

@@ -196,9 +196,6 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   // };
 
   const cardToggle = () => {
-    // eslint-disable-next-line no-console
-    console.log(id);
-
     if (format === 'card') {
       navigate(`course/${id}`);
     }

@@ -197,10 +197,6 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
     id,
     rating,
   } = course;
-
-  // eslint-disable-next-line no-console
-  console.log(course.meta);
-
   const link = course.meta?.courseVideoPreview?.link || '';
 
   useEffect(() => {
@@ -234,69 +230,89 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   // };
 
   const cardToggle = () => {
+    const player = playerRef.current;
+
+    if (player) {
+      playerRef.current.pause();
+    }
+
     if (format === 'card') {
       navigate(`course/${id}`, { replace: true });
     }
   };
 
-  // function playVideo() {
-  //   playerRef.current.play();
-  // }
+  function playVideo() {
+    // eslint-disable-next-line no-console
+    console.log('play');
 
-  // function pauseVideo() {
-  //   playerRef.current.pause();
-  // }
+    const player = playerRef.current;
+
+    if (player) {
+      player.volume = 0;
+      player.play();
+    }
+  }
+
+  function pauseVideo() {
+    // eslint-disable-next-line no-console
+    console.log('pause');
+    const player = playerRef.current;
+
+    if (player) {
+      playerRef.current.pause();
+    }
+  }
 
   // function toggleControls() {
   //   playerRef.current.controls = !playerRef.current.controls;
   // }
 
   return (
-    <>
-      <CardContainer
-        onClick={cardToggle}
+    <CardContainer
+      onClick={cardToggle}
+      format={format}
+      onMouseEnter={() => playVideo()}
+      onMouseLeave={() => pauseVideo()}
+    >
+      <CardImage
+        src={`${previewImageLink}/cover.webp`}
+        alt={description}
         format={format}
-      >
-        <CardImage
-          src={`${previewImageLink}/cover.webp`}
-          alt={description}
-          format={format}
-        />
-        <CardContent format={format}>
-          {/* <CardCategory format={format}>{category}</CardCategory> */}
-          <CardTitle format={format}>{title}</CardTitle>
+      />
+      <CardContent format={format}>
+        {/* <CardCategory format={format}>{category}</CardCategory> */}
+        <CardTitle format={format}>{title}</CardTitle>
 
-          <CardPlayer>
-            <ReactHlsPlayer
-              playerRef={playerRef}
-              src={link}
-              autoPlay={false}
-              controls
-              width="100%"
-              height="100%"
-              hlsConfig={{
-                startPosition: -1,
-              }}
-            />
-          </CardPlayer>
+        <CardPlayer>
+          <ReactHlsPlayer
+            playerRef={playerRef}
+            src={link}
+            autoPlay={false}
+            controls
+            width="100%"
+            height="100%"
+            hlsConfig={{
+              startPosition: -1,
+            }}
+          />
+        </CardPlayer>
 
-          <CardDescription format={format}>{description}</CardDescription>
-          <CardPrice format={format}>
-            {/* {price} */}
-          </CardPrice>
+        <CardDescription format={format}>{description}</CardDescription>
+        <CardPrice format={format}>
+          {/* {price} */}
+        </CardPrice>
 
-          <CardRating format={format}>
-            {/* <img src={StarIcon} alt="star icon" /> */}
-            {/* <CardRatingCount format={format}>{`${count} available`}</CardRatingCount> */}
-            Rating:&nbsp;
-            {rating}
-          </CardRating>
+        <CardRating format={format}>
+          {/* <img src={StarIcon} alt="star icon" /> */}
+          {/* <CardRatingCount format={format}>{`${count} available`}</CardRatingCount> */}
+          Rating:&nbsp;
+          {rating}
+        </CardRating>
 
-        </CardContent>
-        {/* <CardButtonBuy onClick={e => buyHandler(e)} format={format}>
-          Add
-        </CardButtonBuy> */}
-      </CardContainer>
-    </>
+      </CardContent>
+      {/* <CardButtonBuy onClick={e => buyHandler(e)} format={format}>
+        Add
+      </CardButtonBuy> */}
+    </CardContainer>
   );
 };

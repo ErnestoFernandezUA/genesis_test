@@ -1,5 +1,6 @@
 import {
   FunctionComponent,
+  useEffect,
   useRef,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,12 +14,12 @@ import ReactHlsPlayer from 'react-hls-player';
 import { Course } from '../type/Courses';
 
 const CardContainer = styled.div<{ format?: string }>`
-  display: inline-flex;
-  flex-direction: column;
+  /* display: inline-flex; */
+  /* flex-direction: column;
   align-items: center;
-  justify-content: baseline;
+  justify-content: baseline; */
   width: 280px;
-  height: 400px;
+  height: 450px;
   border-radius: 10px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
   overflow: hidden;
@@ -47,7 +48,7 @@ const CardContainer = styled.div<{ format?: string }>`
 
 const CardImage = styled.img<{ format?: string }>`
   width: 100%;
-  height: 150px;
+  height: 120px;
   object-fit: cover;
   overflow: hidden;
 
@@ -61,10 +62,10 @@ const CardImage = styled.img<{ format?: string }>`
 `;
 
 const CardContent = styled.div<{ format?: string }>`
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   padding: 20px;
 
   ${({ format }) => (format === 'page') && css`
@@ -85,7 +86,7 @@ const CardContent = styled.div<{ format?: string }>`
 const CardTitle = styled.h2<{ format?: string }>`
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 7px;
   max-width: 250px;
   text-align: left;
   overflow: hidden;
@@ -113,7 +114,7 @@ const CardTitle = styled.h2<{ format?: string }>`
 const CardDescription = styled.p<{ format?: string }>`
   font-size: 14px;
   text-align: left;
-  max-height: 50px;
+  height: 60px;
   text-overflow: ellipsis;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -122,6 +123,7 @@ const CardDescription = styled.p<{ format?: string }>`
   -webkit-box-direction: normal;
   -webkit-box-orient: vertical;
   overflow-wrap: break-word;
+  padding-top: 5px;
 
   ${({ format }) => (format === 'page') && css`
     font-size: 24px;
@@ -146,9 +148,10 @@ const CardPrice = styled.h3<{ format?: string }>`
 `;
 
 const CardRating = styled.div<{ format?: string }>`
-  margin-top: 10px;
+  margin-top: 5px;
   text-align: left;
   align-self: flex-start;
+  font-size: 14px;
 
   ${({ format }) => (format === 'page') && css`
   `}
@@ -176,7 +179,7 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   course,
   format = 'card',
 }) => {
-  const playerRef = useRef(null);
+  const playerRef = useRef<HTMLVideoElement>(null);
   const {
     description,
     previewImageLink,
@@ -192,6 +195,24 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
 
   // eslint-disable-next-line no-console
   console.log(link);
+
+  useEffect(() => {
+    function handlePlay() {
+      // Do something when the video starts/resumes playing
+    }
+
+    const player = playerRef.current;
+
+    if (player) {
+      player.addEventListener('play', handlePlay);
+    }
+
+    return () => {
+      if (player) {
+        player.removeEventListener('play', handlePlay);
+      }
+    };
+  }, [playerRef]);
 
   // const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -223,15 +244,16 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   //   playerRef.current.controls = !playerRef.current.controls;
   // }
 
-  // eslint-disable-next-line no-console
-  // console.log(link || 'no link');
-
   return (
     <CardContainer
       onClick={cardToggle}
       format={format}
     >
-      <CardImage src={`${previewImageLink}/cover.webp`} alt={description} format={format} />
+      <CardImage
+        src={`${previewImageLink}/cover.webp`}
+        alt={description}
+        format={format}
+      />
       <CardContent format={format}>
         {/* <CardCategory format={format}>{category}</CardCategory> */}
         <CardTitle format={format}>{title}</CardTitle>
@@ -242,7 +264,10 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
           autoPlay={false}
           controls
           width="100%"
-          height="auto"
+          height="150px"
+          hlsConfig={{
+            startPosition: -1,
+          }}
         />
 
         <CardDescription format={format}>{description}</CardDescription>

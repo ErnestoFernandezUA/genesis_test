@@ -18,10 +18,6 @@ const Wrapper = styled.div`
 
 export const CoursePage: FunctionComponent = () => {
   const { id } = useParams();
-
-  // eslint-disable-next-line no-console
-  console.log(id);
-
   const courses = useAppSelector(selectCourses);
   const course = courses.find(c => String(c.id) === id);
 

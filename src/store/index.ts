@@ -23,6 +23,13 @@ import productsSlice from './features/Products/productsSlice';
 import basketSlice from './features/Basket/basketSlice';
 import coursesSlice from './features/Courses/coursesSlice';
 
+const rootReducer = combineReducers({
+  control: controlsSlice,
+  products: productsSlice,
+  basket: basketSlice,
+  courses: coursesSlice,
+});
+
 const sagaMiddleware = createSagaMiddleware();
 
 const persistConfig = {
@@ -30,17 +37,11 @@ const persistConfig = {
   storage,
   whitelist: [
     'basket',
+    'courses',
     // 'products', // don't save products state in local storage
   ],
   // blacklist: ['any_part_of_store'],
 };
-
-const rootReducer = combineReducers({
-  control: controlsSlice,
-  products: productsSlice,
-  basket: basketSlice,
-  courses: coursesSlice,
-});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

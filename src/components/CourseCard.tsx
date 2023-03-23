@@ -1,8 +1,12 @@
-import { FunctionComponent } from 'react';
+import {
+  FunctionComponent,
+  useRef,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import ReactHlsPlayer from 'react-hls-player';
 
-import StarIcon from '../assets/star-icon.svg';
+// import StarIcon from '../assets/star-icon.svg';
 // import { Button } from '../UI/Button';
 // import { useAppDispatch } from '../store/hooks';
 // import { addProductToBasket } from '../store/features/Basket/basketSlice';
@@ -12,7 +16,7 @@ const CardContainer = styled.div<{ format?: string }>`
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: baseline;
   width: 280px;
   height: 400px;
   border-radius: 10px;
@@ -43,7 +47,7 @@ const CardContainer = styled.div<{ format?: string }>`
 
 const CardImage = styled.img<{ format?: string }>`
   width: 100%;
-  height: 250px;
+  height: 150px;
   object-fit: cover;
   overflow: hidden;
 
@@ -83,7 +87,7 @@ const CardTitle = styled.h2<{ format?: string }>`
   font-weight: bold;
   margin-bottom: 10px;
   max-width: 250px;
-  text-align: center;
+  text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -108,13 +112,13 @@ const CardTitle = styled.h2<{ format?: string }>`
 
 const CardDescription = styled.p<{ format?: string }>`
   font-size: 14px;
-  text-align: center;
+  text-align: left;
   max-height: 50px;
   text-overflow: ellipsis;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 3;
   -webkit-box-direction: normal;
   -webkit-box-orient: vertical;
   overflow-wrap: break-word;
@@ -142,9 +146,9 @@ const CardPrice = styled.h3<{ format?: string }>`
 `;
 
 const CardRating = styled.div<{ format?: string }>`
-  display: flex;
-  align-items: center;
   margin-top: 10px;
+  text-align: left;
+  align-self: flex-start;
 
   ${({ format }) => (format === 'page') && css`
   `}
@@ -169,20 +173,26 @@ interface CourseCardProps {
 }
 
 export const CourseCard: FunctionComponent<CourseCardProps> = ({
-  course: product,
+  course,
   format = 'card',
 }) => {
+  const playerRef = useRef(null);
   const {
-    // category,
     description,
     previewImageLink,
-    // image,
-    // price,
-    // rating,
     title,
     id,
-  } = product;
-  // const { count } = rating;
+    rating,
+  } = course;
+
+  // eslint-disable-next-line no-console
+  console.log(course.meta);
+
+  const link = course.meta?.courseVideoPreview?.link || '';
+
+  // eslint-disable-next-line no-console
+  console.log(link);
+
   // const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -197,9 +207,24 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
 
   const cardToggle = () => {
     if (format === 'card') {
-      navigate(`course/${id}`);
+      navigate(`course/${id}`, { replace: true });
     }
   };
+
+  // function playVideo() {
+  //   playerRef.current.play();
+  // }
+
+  // function pauseVideo() {
+  //   playerRef.current.pause();
+  // }
+
+  // function toggleControls() {
+  //   playerRef.current.controls = !playerRef.current.controls;
+  // }
+
+  // eslint-disable-next-line no-console
+  // console.log(link || 'no link');
 
   return (
     <CardContainer
@@ -210,14 +235,26 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
       <CardContent format={format}>
         {/* <CardCategory format={format}>{category}</CardCategory> */}
         <CardTitle format={format}>{title}</CardTitle>
+
+        <ReactHlsPlayer
+          playerRef={playerRef}
+          src={link}
+          autoPlay={false}
+          controls
+          width="100%"
+          height="auto"
+        />
+
         <CardDescription format={format}>{description}</CardDescription>
         <CardPrice format={format}>
-          $
           {/* {price} */}
         </CardPrice>
+
         <CardRating format={format}>
-          <img src={StarIcon} alt="star icon" />
+          {/* <img src={StarIcon} alt="star icon" /> */}
           {/* <CardRatingCount format={format}>{`${count} available`}</CardRatingCount> */}
+          Rating:&nbsp;
+          {rating}
         </CardRating>
 
       </CardContent>

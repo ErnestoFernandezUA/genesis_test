@@ -6,9 +6,7 @@ import styled from 'styled-components';
 import { NotFound } from './pages/NotFound';
 import { HomePage } from './pages/HomePage/HomePage';
 import { Controls } from './components/Controls';
-import { BasketPage } from './pages/BasketPage';
-import { ProductPage } from './pages/ProductPage';
-import { selectToken } from './store/features/Courses/coursesSlice';
+import { selectCourses, selectToken } from './store/features/Courses/coursesSlice';
 import {
   useAppDispatch,
   useAppSelector,
@@ -38,6 +36,7 @@ const Main = styled.main`
 
 function App() {
   const token = useAppSelector(selectToken);
+  const courses = useAppSelector(selectCourses);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -45,7 +44,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchCourses());
+    if (token && !courses.length) {
+      dispatch(fetchCourses());
+    }
   }, [token]);
 
   return (
@@ -76,21 +77,9 @@ export const router = createHashRouter([
         errorElement: <>Error on HomePage</>,
       },
       {
-        path: '/basket',
-        element: <BasketPage />,
-        id: 'basketPage',
-        errorElement: <>Error on BasketPage</>,
-      },
-      {
         path: '/course/:id',
         element: <CoursePage />,
         errorElement: <>Error on CoursePage</>,
-      },
-      // there we can add page for each product
-      {
-        path: '/product/:id',
-        element: <ProductPage />,
-        errorElement: <>Error on ProductPage</>,
       },
     ],
   },

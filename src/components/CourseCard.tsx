@@ -200,29 +200,29 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
   } = course;
   const link = course.meta?.courseVideoPreview?.link || '';
 
-  useEffect(() => {
-    function handlePlay() {
-      // Do something when the video starts/resumes playing
-      const player = playerRef.current;
+  // useEffect(() => {
+  //   function handlePlay() {
+  //     // Do something when the video starts/resumes playing
+  //     const player = playerRef.current;
 
-      if (player) {
-        // eslint-disable-next-line no-console
-        console.log('handlePlay', player.currentTime);
-      }
-    }
+  //     if (player) {
+  //       // eslint-disable-next-line no-console
+  //       console.log('handlePlay', player.currentTime);
+  //     }
+  //   }
 
-    const player = playerRef.current;
+  //   const player = playerRef.current;
 
-    if (player) {
-      player.addEventListener('play', handlePlay);
-    }
+  //   if (player) {
+  //     player.addEventListener('play', handlePlay);
+  //   }
 
-    return () => {
-      if (player) {
-        player.removeEventListener('play', handlePlay);
-      }
-    };
-  }, [playerRef]);
+  //   return () => {
+  //     if (player) {
+  //       player.removeEventListener('play', handlePlay);
+  //     }
+  //   };
+  // }, [playerRef]);
 
   useEffect(() => {
     function handlePause() {

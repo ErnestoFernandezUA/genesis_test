@@ -5,18 +5,17 @@ import {
   delay,
   put, select,
 } from 'redux-saga/effects';
-import { getCourses } from '../../api/getCourses';
-// import { Course } from '../../type/Courses';
+import { Course } from '../../type/Courses';
 
 import {
-  resetStateExceptToken,
+  // resetStateExceptToken,
   selectToken,
   setCourses,
   setError,
   setStatus,
 } from '../features/Courses/coursesSlice';
 
-export function* getCoursesSaga() {
+export function* getCourseSaga() {
   // eslint-disable-next-line no-console
   console.log('getCoursesSaga start');
   const token: string = yield select(selectToken);
@@ -26,18 +25,26 @@ export function* getCoursesSaga() {
     yield console.log('getCoursesSaga: token === null');
   }
 
-  yield put(resetStateExceptToken());
+  // yield put(resetStateExceptToken());
   yield put(setStatus('loading'));
 
   try {
     yield delay(3000);
 
-    const { courses } = yield getCourses(token);
+    const res: { courses: Course[] } = yield fetch(
+      'https://api.wisey.app/api/v1/core/preview-courses/', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization',
+        },
+      },
+    ).then(response => response.json());
 
     // eslint-disable-next-line no-console
-    yield console.log('courses', courses);
+    yield console.log('response', res.courses);
 
-    yield put(setCourses(courses));
+    yield put(setCourses(res.courses));
   } catch (error: unknown) {
     yield put(setError((error as AxiosError).message));
   } finally {

@@ -34,6 +34,8 @@ const Main = styled.main`
   margin: 0 auto;
 `;
 
+localStorage.clear();
+
 function App() {
   const token = useAppSelector(selectToken);
   const courses = useAppSelector(selectCourses);

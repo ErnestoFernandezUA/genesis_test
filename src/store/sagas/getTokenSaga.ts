@@ -5,6 +5,7 @@ import {
   // delay,
   put,
 } from 'redux-saga/effects';
+import { getToken } from '../../api/getToken';
 import {
   resetError,
   setError,
@@ -22,19 +23,12 @@ export function* getTokenSaga() {
   try {
     // yield delay(3000);
 
-    const response: { token: string } = yield fetch(
-      'https://api.wisey.app/api/v1/auth/anonymous?platform=subscriptions', {
-        method: 'GET',
-        headers: {
-          'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization',
-        },
-      },
-    ).then(r => r.json());
+    const { token } = yield getToken();
 
     // eslint-disable-next-line no-console
-    console.log('getTokenSaga response', response.token);
+    console.log('getTokenSaga response', token);
 
-    yield put(setToken(response.token));
+    yield put(setToken(token));
   } catch (error: unknown) {
     yield put(setError((error as AxiosError).message));
   } finally {

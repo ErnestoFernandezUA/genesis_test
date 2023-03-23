@@ -2,9 +2,11 @@
 /* eslint-disable import/no-cycle */
 import { AxiosError } from 'axios';
 import {
+  delay,
   put,
 } from 'redux-saga/effects';
 import {
+  resetError,
   setError,
   setStatus,
   setToken,
@@ -14,10 +16,11 @@ export function* getTokenSaga() {
   // eslint-disable-next-line no-console
   console.log('getTokenSaga start');
 
+  yield put(resetError());
   yield put(setStatus('loading'));
 
   try {
-    // yield delay(3000);
+    yield delay(3000);
 
     const res: { token: string } = yield fetch(
       'https://api.wisey.app/api/v1/auth/anonymous?platform=subscriptions', {

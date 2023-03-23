@@ -52,7 +52,6 @@ function App() {
     <Wrapper>
       <Header>
         <h1>Test</h1>
-        {token}
         <Controls />
       </Header>
 

@@ -22,10 +22,6 @@ const coursesSlice = createSlice({
   name: 'courses',
   initialState,
   reducers: {
-    // loadCourses: () => {
-    // we can create empty actions for saga watchers
-    // but I use external sagasActions file
-    // },
     setCourses: (state: CoursesState, action: PayloadAction<Course[]>) => {
       // eslint-disable-next-line no-console
       console.log('setCourses');
@@ -37,6 +33,9 @@ const coursesSlice = createSlice({
       action: PayloadAction<'idle' | 'loading' | 'failed'>,
     ) => {
       state.statusLoading = action.payload;
+    },
+    resetError: (state: CoursesState) => {
+      state.error = initialState.error;
     },
     setError: (state: CoursesState, action: PayloadAction<string>) => {
       state.error = action.payload;
@@ -58,6 +57,7 @@ export default coursesSlice.reducer;
 export const {
   setCourses,
   setStatus,
+  resetError,
   setError,
   setToken,
   resetState,

@@ -2,11 +2,13 @@
 /* eslint-disable import/no-cycle */
 import { AxiosError } from 'axios';
 import {
+  delay,
   put, select,
 } from 'redux-saga/effects';
 import { Course } from '../../type/Courses';
 
 import {
+  resetError,
   selectToken,
   setCourses,
   setError,
@@ -23,10 +25,11 @@ export function* getCoursesSaga() {
     yield console.log('getCoursesSaga: token === null');
   }
 
+  yield put(resetError());
   yield put(setStatus('loading'));
 
   try {
-    // yield delay(3000);
+    yield delay(3000);
 
     const res: { courses: Course[] } = yield fetch(
       'https://api.wisey.app/api/v1/core/preview-courses/', {

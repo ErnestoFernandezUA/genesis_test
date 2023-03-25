@@ -8,7 +8,7 @@ export const getCourse = async (token: string, courseId: string) => {
         Authorization: `Bearer ${token}`,
         'Access-Control-Allow-Headers':
           'X-Requested-With, Content-Type, Authorization',
-        'Access-Control-Allow-Origin': 'no-cors',
+        'Access-Control-Allow-Origin': 'https://ernestofernandezua.github.io',
       },
     },
   ).then(r => r.json());

@@ -13,7 +13,7 @@ const sagaActionsCreator = {
   fetchCourses: () => ({ type: sagaActions.FETCH_COURSES }),
   fetchCourse: (courseId: string) => ({
     type: sagaActions.FETCH_COURSE,
-    action: { payload: courseId },
+    payload: courseId,
   }),
 };
 

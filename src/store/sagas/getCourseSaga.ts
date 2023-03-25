@@ -16,14 +16,16 @@ import {
   setStatus,
 } from '../features/Courses/coursesSlice';
 
-export function* getCourseSaga(courseId: string) {
+type Params = { type: string; payload: string };
+
+export function* getCourseSaga({ payload }: Params) {
   // eslint-disable-next-line no-console
-  console.log('getCoursesSaga start');
+  console.log('getCourseSaga start');
   const token: string = yield select(selectToken);
 
   if (!token) {
     // eslint-disable-next-line no-console
-    yield console.log('getCoursesSaga: token === null');
+    yield console.log('getCourseSaga: token === null');
   }
 
   // yield put(resetStateExceptToken());
@@ -32,7 +34,7 @@ export function* getCourseSaga(courseId: string) {
   try {
     yield delay(3000);
 
-    const res: { courses: Course[] } = yield getCourse(token, courseId);
+    const res: { courses: Course[] } = yield getCourse(token, payload);
 
     // eslint-disable-next-line no-console
     yield console.log('response', res.courses);

@@ -8,6 +8,10 @@ export const getCourses = async (token: string) => {
         Authorization: `Bearer ${token}`,
         'Access-Control-Allow-Headers':
           'X-Requested-With, Content-Type, Authorization',
+        'Access-Control-Allow-Methods':
+          'GET,POST,PUT,DELETE,OPTIONS',
+        'Access-Control-Allow-Origin':
+          'https://ernestofernandezua.github.io',
       },
     },
   ).then(r => r.json());

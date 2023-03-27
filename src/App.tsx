@@ -34,7 +34,7 @@ const Main = styled.main`
   margin: 0 auto;
 `;
 
-localStorage.clear();
+// localStorage.clear();
 
 function App() {
   const token = useAppSelector(selectToken);

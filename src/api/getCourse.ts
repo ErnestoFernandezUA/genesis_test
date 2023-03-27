@@ -6,9 +6,13 @@ export const getCourse = async (token: string, courseId: string) => {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
         'Access-Control-Allow-Headers':
           'X-Requested-With, Content-Type, Authorization',
-        'Access-Control-Allow-Origin': 'https://ernestofernandezua.github.io',
+        'Access-Control-Allow-Methods':
+          'GET,POST,PUT,DELETE,OPTIONS',
+        'Access-Control-Allow-Origin':
+          'https://ernestofernandezua.github.io',
       },
     },
   ).then(r => r.json());

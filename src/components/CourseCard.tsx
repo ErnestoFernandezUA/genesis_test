@@ -243,7 +243,7 @@ export const CourseCard: FunctionComponent<CourseCardProps> = ({
 
     return () => {
       if (player) {
-        playerRef.current.removeEventListener('pause', handlePause);
+        player.removeEventListener('pause', handlePause);
       }
     };
   }, [playerRef]);

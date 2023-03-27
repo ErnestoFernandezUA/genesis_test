@@ -6,12 +6,13 @@ import {
   put, select,
 } from 'redux-saga/effects';
 import { getCourse } from '../../api/getCourse';
-import { Course } from '../../type/Courses';
+import { CourseDetailed } from '../../type/Courses';
 
 import {
   // resetStateExceptToken,
   selectToken,
-  setCourses,
+  setDetailed,
+  // setCourses,
   setError,
   setStatus,
 } from '../features/Courses/coursesSlice';
@@ -34,14 +35,14 @@ export function* getCourseSaga({ payload }: Params) {
   try {
     yield delay(3000);
 
-    const res: { courses: Course[] } = yield getCourse(token, payload);
+    const res: CourseDetailed = yield getCourse(token, payload);
 
     // eslint-disable-next-line no-console
-    yield console.log('response', res.courses);
+    yield console.log('getCourseSaga response', res);
 
-    yield put(setCourses(res.courses));
+    yield put(setDetailed(res));
   } catch (error: unknown) {
-    yield put(setError((error as AxiosError).message));
+    yield put(setError((error as AxiosError).message)); // not axios error type
   } finally {
     yield put(setStatus('idle'));
   }

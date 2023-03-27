@@ -1,12 +1,14 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import {
+  useAppDispatch,
   useAppSelector,
 } from '../../store/hooks';
 import { selectCourses } from '../../store/features/Courses/coursesSlice';
 import { CourseCard } from '../../components/CourseCard';
+import { fetchCourse } from '../../store/sagas/sagaActions';
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -17,9 +19,16 @@ const Wrapper = styled.div`
 `;
 
 export const CoursePage: FunctionComponent = () => {
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const courses = useAppSelector(selectCourses);
   const course = courses.find(c => String(c.id) === id);
+
+  useEffect(() => {
+    if (id && !course?.detailed) {
+      dispatch(fetchCourse(id));
+    }
+  }, []);
 
   return (
     <Wrapper>

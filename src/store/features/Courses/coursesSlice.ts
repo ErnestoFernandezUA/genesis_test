@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // eslint-disable-next-line import/no-cycle
 import { RootState } from '../..';
-import { Course } from '../../../type/Courses';
+import { Course, CourseDetailed } from '../../../type/Courses';
 
 export interface CoursesState {
   storage: Course[];
@@ -26,7 +26,25 @@ const coursesSlice = createSlice({
       // eslint-disable-next-line no-console
       console.log('setCourses');
 
-      state.storage = [...action.payload];
+      state.storage = [...action.payload.map(c => ({ ...c, detailed: null }))];
+    },
+    setDetailed: (
+      state: CoursesState,
+      action: PayloadAction<CourseDetailed>,
+    ) => {
+      // eslint-disable-next-line no-console
+      console.log('setDetailed');
+
+      state.storage = [...state.storage.map(c => {
+        if (c.id === action.payload.id) {
+          return {
+            ...c,
+            detailed: action.payload,
+          };
+        }
+
+        return c;
+      })];
     },
     setStatus: (
       state: CoursesState,
@@ -59,6 +77,7 @@ const coursesSlice = createSlice({
 export default coursesSlice.reducer;
 export const {
   setCourses,
+  setDetailed,
   setStatus,
   resetError,
   setError,
